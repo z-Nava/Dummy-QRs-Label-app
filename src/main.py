@@ -6,8 +6,8 @@ import os
 
 #Datos simulados de "Jobs"
 jobs_data = {
-    "MXF_BPMPUL2434061": {"modelo": "BACKPACK", "corrida": "MXF371-2XC", "version": "24", "año": "2025", "semana": "34", "consecutivo": "061"},
-    "MXF_BPMPUL2434062": {"modelo": "BACKPACK", "corrida": "MXF371-2XC", "version": "24", "año": "2025", "semana": "34", "consecutivo": "062"},
+    "MXF_BPMPUL2434061": {"modelo": "BACKPACK", "corrida": "MP", "version": "24", "año": "2024", "semana": "34", "consecutivo": "001"},
+    "MXF_BCMPUL2434062": {"modelo": "BRIEFCASE", "corrida": "MP", "version": "24", "año": "2025", "semana": "34", "consecutivo": "001"},
 }
 
 def generar_qr():
@@ -39,7 +39,7 @@ def generar_qr():
     os.makedirs(output_dir, exist_ok=True)
 
     for i in range(cantidad):
-        data_qr = f"MXF_{modelo[:2].upper()}MP{corrida}UL{version}{año[-2:]}{semana}{consecutivo}"
+        data_qr = f"MXF_{modelo[0].upper()}{modelo[4].upper()}{corrida}UL{version}{año[-2:]}{semana}{consecutivo}"
         qr = qrcode.make(data_qr)
         filename = f"{output_dir}/{data_qr}_{i+1}.png"
         qr.save(filename)
@@ -52,7 +52,7 @@ def generar_qr():
 def mostrar_qr(filename):
     img = Image.open(filename)
     #QR TAMAÑO 1 PULGADAS POR .5 PULGADAS
-    img = img.resize((400, 400))
+    img = img.resize((200, 200))
     img = ImageTk.PhotoImage(img)
     qr_label.config(image=img)
     qr_label.image = img
