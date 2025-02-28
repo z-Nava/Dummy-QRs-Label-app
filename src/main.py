@@ -6,8 +6,8 @@ import os
 
 #Datos simulados de "Jobs"
 jobs_data = {
-    "MXF_BPMPUL2434061": {"modelo": "BACKPACK", "corrida": "MP", "version": "24", "año": "2024", "semana": "34", "consecutivo": "001"},
-    "MXF_BCMPUL2434062": {"modelo": "BRIEFCASE", "corrida": "MP", "version": "24", "año": "2025", "semana": "34", "consecutivo": "001"},
+    "MXF_BPMPUL2434061": {"modelo": "BACKPACK", "corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
+    "MXF_BCMPUL2434062": {"modelo": "BRIEFCASE", "corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
 }
 
 def generar_qr():
@@ -39,7 +39,7 @@ def generar_qr():
     os.makedirs(output_dir, exist_ok=True)
 
     for i in range(cantidad):
-        data_qr = f"MXF_{modelo[0].upper()}{modelo[4].upper()}{corrida}UL{version}{año[-2:]}{semana}{consecutivo}"
+        data_qr = f"MXF_{modelo[0].upper()}{modelo[4].upper()}{corrida}{version}{año[2]}{año[3]}{semana}{consecutivo}"
         qr = qrcode.make(data_qr)
         filename = f"{output_dir}/{data_qr}_{i+1}.png"
         qr.save(filename)
@@ -56,6 +56,27 @@ def mostrar_qr(filename):
     img = ImageTk.PhotoImage(img)
     qr_label.config(image=img)
     qr_label.image = img
+
+def new_window():
+    new_window = tk.Toplevel(root)
+    new_window.title("Ventana secundaria")
+    new_window.geometry("1280x720")
+    new_window.config(bg="blue")
+
+    tk.Label(new_window, text="Hola desde la ventana secundaria", bg="blue").pack(pady=5)
+
+    style = ttk.Style()
+    style.configure("RoundedButton.TButton",
+                    foreground="black",
+                    font=("Helvetica", 16, "bold"),
+                    relief="raised",
+                    borderwidth=5,
+                    padding=(10, 5))
+    style.map("RoundedButton.TButton",
+              background=[("active", "darkred")])
+
+    btn_cerrar = ttk.Button(new_window, text="Cerrar", command=new_window.destroy, style="RoundedButton.TButton")
+    btn_cerrar.pack(pady=5)
 
 #Ventana principal
 root = tk.Tk()
@@ -80,6 +101,9 @@ entry_cantidad.pack(pady=5)
 
 btn_generar = tk.Button(root, text="Generar QRs", command=generar_qr)
 btn_generar.pack(pady=5)
+
+btn_ventana = tk.Button(root, text="Ventana secundaria", command=new_window)
+btn_ventana.pack(pady=5)
 
 qr_label = tk.Label(root)
 qr_label.pack(pady=5)
