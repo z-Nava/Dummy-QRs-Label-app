@@ -52,7 +52,7 @@ def generar_qr():
 def mostrar_qr(filename):
     img = Image.open(filename)
     #QR TAMAÑO 1 PULGADAS POR .5 PULGADAS
-    img = img.resize((200, 100))
+    img = img.resize((400, 400))
     img = ImageTk.PhotoImage(img)
     qr_label.config(image=img)
     qr_label.image = img
