@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, PhotoImage
 import qrcode
 from PIL import Image, ImageTk
 import os
@@ -84,6 +84,10 @@ root.title("Generador de QRs")
 root.resizable(False, False)
 root.config(bg="red")
 root.geometry("400x400")
+
+imageMW = PhotoImage(file="MW-Black-Logo.jpg")
+image_label = tk.Label(root, image=imageMW)
+image_label.pack(pady=5)
 
 #Widgets
 tk.Label(root, text="Job ID:", bg="red").pack(pady=5)
