@@ -6,9 +6,8 @@ import os
 
 #Datos simulados de "Jobs"
 jobs_data = {
-    "123456" : {"modelo": "taladro", "fecha":"2021-10-10"},
-    "654321" : {"modelo": "sierra", "fecha":"2021-10-11"},
-    "334623" : {"LINEA": "MXF007", "ITEM_DESCRIPTION": "SPRING, DIA1.32XOD14.3XL56.4MM \MX FUEL BAT INTERFACE", "COMPONENT": "696570001", "FECHA": "02/04/2025 15:44:00"},
+    "MXF_BPMPUL2434061": {"modelo": "BACKPACK", "corrida": "MXF371-2XC", "version": "24", "año": "2025", "semana": "34", "consecutivo": "061"},
+    "MXF_BPMPUL2434062": {"modelo": "BACKPACK", "corrida": "MXF371-2XC", "version": "24", "año": "2025", "semana": "34", "consecutivo": "062"},
 }
 
 def generar_qr():
@@ -29,16 +28,20 @@ def generar_qr():
     
     info_job = jobs_data[job_id]
     modelo = info_job["modelo"]
-    fecha = info_job["fecha"]
+    corrida = info_job["corrida"]
+    version = info_job["version"]
+    año = info_job["año"]
+    semana = info_job["semana"]
+    consecutivo = info_job["consecutivo"]
 
     #Carpeta para guardar los QR
     output_dir = "qrs_generados"
     os.makedirs(output_dir, exist_ok=True)
 
     for i in range(cantidad):
-        data_qr = f"Job ID: {job_id}\nModelo: {modelo}\nFecha: {fecha}\nQR: {i+1} de {cantidad}"
+        data_qr = f"MXF_{modelo[:2].upper()}MP{corrida}UL{version}{año[-2:]}{semana}{consecutivo}"
         qr = qrcode.make(data_qr)
-        filename = f"{output_dir}/{job_id}_{i+1}.png"
+        filename = f"{output_dir}/{data_qr}_{i+1}.png"
         qr.save(filename)
 
         if i == 0:
@@ -48,7 +51,8 @@ def generar_qr():
 
 def mostrar_qr(filename):
     img = Image.open(filename)
-    img = img.resize((200, 200))
+    #QR TAMAÑO 1 PULGADAS POR .5 PULGADAS
+    img = img.resize((200, 100))
     img = ImageTk.PhotoImage(img)
     qr_label.config(image=img)
     qr_label.image = img
