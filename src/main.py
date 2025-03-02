@@ -85,10 +85,6 @@ root.resizable(False, False)
 root.config(bg="red")
 root.geometry("400x400")
 
-imageMW = PhotoImage(file="MW-Black-Logo.jpg")
-image_label = tk.Label(root, image=imageMW)
-image_label.pack(pady=5)
-
 #Widgets
 tk.Label(root, text="Job ID:", bg="red").pack(pady=5)
 entry_job = tk.Entry(root)
