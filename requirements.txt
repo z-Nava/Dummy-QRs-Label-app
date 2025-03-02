@@ -1,3 +1,2 @@
-tkinter
-Pillow
-qrcode
+Pillow==10.2.0
+qrcode==7.4.2
