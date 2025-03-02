@@ -1,5 +1,5 @@
-def main():
-    print("Hola, bienvenido a la aplicación Dummy QRs Label!")
+from controllers.qr_controller import QRController
 
 if __name__ == "__main__":
-    main()
+    app = QRController()
+    app.run()
