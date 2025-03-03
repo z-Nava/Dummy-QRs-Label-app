@@ -15,7 +15,11 @@ class QRController:
 
     def abrir_seleccion_herramienta(self, modelo):
         """Abre la ventana de configuración de la herramienta seleccionada"""
-        self.root.destroy()  # Cierra la ventana principal
+        
+        # Verifica si la ventana principal 'root' existe antes de intentar destruirla
+        if hasattr(self, 'root') and self.root.winfo_exists():
+            self.root.destroy()  # Cierra la ventana principal
+        
         new_root = tk.Tk()  # Crea una nueva ventana
 
         if modelo == "BACKPACK / BRIEFCASE":
@@ -24,6 +28,7 @@ class QRController:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 
         new_root.mainloop()
+
 
     def generar_qrs(self, codigo_qr, cantidad):
         """Llama a la función del modelo para generar QR"""
