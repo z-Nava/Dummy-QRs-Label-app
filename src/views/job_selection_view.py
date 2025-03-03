@@ -1,24 +1,37 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+import os
 
 class JobSelectionView:
     def __init__(self, root, controller, modelo):
         self.controller = controller
-        self.root = tk.Toplevel(root)  # Crear una nueva ventana
+        self.root = tk.Toplevel(root)
         self.root.title(f"Seleccionar Job ID - {modelo}")
         self.root.geometry("400x400")
         self.root.config(bg="lightgray")
 
-        self.modelo = modelo
+        # Ruta del logo
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # Obtiene el directorio actual
+        self.logo_path = os.path.join(base_dir, "..", "assets", "MW-Black-Logo.png")  # Ruta absoluta
+
+
+        # Cargar imagen del logo
+        self.logo = Image.open(self.logo_path)
+        self.logo = self.logo.resize((120, 60))  # Ajustar tamaño
+        self.logo = ImageTk.PhotoImage(self.logo)
+
+        # Mostrar logo
+        self.logo_label = tk.Label(self.root, image=self.logo, bg="lightgray")
+        self.logo_label.pack(pady=10)
 
         # Etiqueta y selección de Job ID
         tk.Label(self.root, text=f"Modelo: {modelo}", font=("Arial", 14, "bold"), bg="lightgray").pack(pady=10)
         tk.Label(self.root, text="Seleccione un Job ID:", font=("Arial", 12), bg="lightgray").pack(pady=5)
-        
+
         self.entry_job = ttk.Combobox(self.root, values=self.controller.obtener_jobs_por_modelo(modelo))
         self.entry_job.pack(pady=5)
-        
+
         # Entrada de cantidad
         tk.Label(self.root, text="Cantidad de QRs:", font=("Arial", 12), bg="lightgray").pack(pady=5)
         self.entry_cantidad = tk.Entry(self.root)
