@@ -1,54 +1,27 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
-from PIL import Image, ImageTk
+from tkinter import ttk
 
-class QRView:
+class MainView:
     def __init__(self, root, controller):
         self.controller = controller
         self.root = root
-        self.root.title("Generador de QRs")
-        self.root.geometry("400x400")
-        self.root.config(bg="red")
+        self.root.title("Selecciona un tipo de herramienta")
+        self.root.geometry("500x300")
+        self.root.config(bg="white")
 
-        # Widgets
-        tk.Label(root, text="Job ID:", bg="red", fg="white", font=("Arial", 12)).pack(pady=5)
-        self.entry_job = ttk.Combobox(root, values=self.controller.obtener_jobs())
-        self.entry_job.pack(pady=5)
+        tk.Label(root, text="Seleccione el tipo de herramienta:", font=("Arial", 14, "bold")).pack(pady=10)
 
-        tk.Label(root, text="Cantidad:", bg="red", fg="white", font=("Arial", 12)).pack(pady=5)
-        self.entry_cantidad = tk.Entry(root)
-        self.entry_cantidad.pack(pady=5)
+        # Contenedor de botones
+        self.frame = tk.Frame(root, bg="white")
+        self.frame.pack()
 
-        self.btn_generar = tk.Button(root, text="Generar QRs", command=self.generar_qr, bg="black", fg="white", font=("Arial", 10))
-        self.btn_generar.pack(pady=5)
+        # Crear botones dinámicamente para cada modelo de herramienta
+        modelos = self.controller.obtener_modelos()
+        for modelo in modelos:
+            btn = tk.Button(self.frame, text=modelo, font=("Arial", 12), width=15, height=2, 
+                            command=lambda m=modelo: self.abrir_seleccion_job(m))
+            btn.pack(pady=5)
 
-        self.btn_ventana = tk.Button(root, text="Ventana secundaria", command=self.abrir_ventana_secundaria, bg="black", fg="white", font=("Arial", 10))
-        self.btn_ventana.pack(pady=5)
-
-        self.qr_label = tk.Label(root)
-        self.qr_label.pack(pady=5)
-
-    def generar_qr(self):
-        """Genera y muestra los códigos QR"""
-        job_id = self.entry_job.get()
-        cantidad = self.entry_cantidad.get()
-        qr_files = self.controller.generar_qrs(job_id, cantidad)
-
-        if qr_files is None:
-            messagebox.showerror("Error", "Job ID inválido o cantidad incorrecta")
-            return
-
-        self.mostrar_qr(qr_files[0])  # Mostrar el primer QR generado
-        messagebox.showinfo("QRs generados", f"Se han generado {len(qr_files)} códigos QR")
-
-    def mostrar_qr(self, filename):
-        """Muestra un QR en la interfaz"""
-        img = Image.open(filename)
-        img = img.resize((200, 200))
-        img = ImageTk.PhotoImage(img)
-        self.qr_label.config(image=img)
-        self.qr_label.image = img
-
-    def abrir_ventana_secundaria(self):
-        """Abre una nueva ventana secundaria"""
-        self.controller.abrir_ventana_secundaria()
+    def abrir_seleccion_job(self, modelo):
+        """Abre la ventana de selección de Job ID"""
+        self.controller.abrir_seleccion_job(modelo)
