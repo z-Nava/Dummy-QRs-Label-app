@@ -1,12 +1,6 @@
 import qrcode
 import os
 
-# Datos simulados de "Jobs"
-jobs_data = {
-    "MXF_BPMPUL2434061": {"modelo": "BACKPACK", "corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
-    "MXF_BCMPUL2434062": {"modelo": "BRIEFCASE", "corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
-}
-
 def generar_qr(job_id, cantidad):
     """Genera códigos QR y los guarda en la carpeta qrs_generados/"""
     if job_id not in jobs_data:

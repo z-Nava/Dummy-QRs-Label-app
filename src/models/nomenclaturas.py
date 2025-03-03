@@ -1,7 +1,12 @@
 # Diccionario de herramientas con sus jobs asociados
 herramientas_data = {
     "BACKPACK / BRIEFCASE": {
-        
+        "modelo": ["BP", "BF"],  # Backpack (BP) o Briefcase (BF)
+        "corrida": ["MP"],  # Corrida fija
+        "version": ["UL"],  # Versión fija
+        "años": list(range(2020, 2031)),  # Años disponibles
+        "semanas": list(range(1, 53)),  # Semanas del año
+        "consecutivo": list(range(1, 100))  # Consecutivo (001-099)
     },
    "LSM": {
        

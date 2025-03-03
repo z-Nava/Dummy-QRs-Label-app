@@ -11,12 +11,12 @@ class MainView:
         self.root.config(bg="red")
 
         # Ruta del logo
-        base_dir = os.path.dirname(os.path.abspath(__file__))  # Obtiene el directorio actual
-        self.logo_path = os.path.join(base_dir, "..", "assets", "MW-Black-Logo.png")  # Ruta absoluta
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.logo_path = os.path.join(base_dir, "..", "assets", "MW-Black-Logo.png")
 
         # Cargar imagen del logo
         self.logo = Image.open(self.logo_path)
-        self.logo = self.logo.resize((150, 75))  # Ajustar tamaño
+        self.logo = self.logo.resize((150, 75))
         self.logo = ImageTk.PhotoImage(self.logo)
 
         # Mostrar logo
@@ -32,18 +32,14 @@ class MainView:
 
         # Crear botones dinámicamente en formato de cuadrícula
         modelos = self.controller.obtener_modelos()
-        columnas = 4  # Número de columnas para distribución horizontal
+        columnas = 4
         self.imagenes = {}
 
         for i, modelo in enumerate(modelos):
-            fila = i // columnas  # Calcula la fila
-            columna = i % columnas  # Calcula la columna
-             # Crear botón con imagen si existe, sino solo texto
-            btn = tk.Button(self.frame, text=modelo, font=("Arial", 12), width=25, height=10,    
-            command=lambda m=modelo: self.abrir_seleccion_job(m))
+            fila = i // columnas
+            columna = i % columnas
+
+            # Crear botón con imagen si existe, sino solo texto
+            btn = tk.Button(self.frame, text=modelo, font=("Arial", 12), width=25, height=10,
+                            command=lambda m=modelo: self.controller.abrir_seleccion_herramienta(m))
             btn.grid(row=fila, column=columna, padx=10, pady=10)
-
-    def abrir_seleccion_job(self, modelo):
-        """Abre la ventana de selección de Job ID"""
-        self.controller.abrir_seleccion_job(modelo)
-
