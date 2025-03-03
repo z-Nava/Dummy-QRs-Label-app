@@ -7,7 +7,7 @@ class MainView:
         self.controller = controller
         self.root = root
         self.root.title("Selecciona un tipo de herramienta")
-        self.root.geometry("800x600")
+        self.root.geometry("1020x800")
         self.root.config(bg="red")
 
         # Ruta del logo
@@ -39,7 +39,7 @@ class MainView:
             fila = i // columnas  # Calcula la fila
             columna = i % columnas  # Calcula la columna
              # Crear botón con imagen si existe, sino solo texto
-            btn = tk.Button(self.frame, text=modelo, font=("Arial", 12), width=30, height=10,    
+            btn = tk.Button(self.frame, text=modelo, font=("Arial", 12), width=25, height=10,    
             command=lambda m=modelo: self.abrir_seleccion_job(m))
             btn.grid(row=fila, column=columna, padx=10, pady=10)
 
