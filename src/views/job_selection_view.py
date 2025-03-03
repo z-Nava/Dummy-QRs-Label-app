@@ -9,7 +9,7 @@ class JobSelectionView:
         self.root = tk.Toplevel(root)
         self.root.title(f"Seleccionar Job ID - {modelo}")
         self.root.geometry("400x400")
-        self.root.config(bg="lightgray")
+        self.root.config(bg="red")
 
         # Ruta del logo
         base_dir = os.path.dirname(os.path.abspath(__file__))  # Obtiene el directorio actual
@@ -22,7 +22,7 @@ class JobSelectionView:
         self.logo = ImageTk.PhotoImage(self.logo)
 
         # Mostrar logo
-        self.logo_label = tk.Label(self.root, image=self.logo, bg="lightgray")
+        self.logo_label = tk.Label(self.root, image=self.logo, bg="red")
         self.logo_label.pack(pady=10)
 
         # Etiqueta y selección de Job ID

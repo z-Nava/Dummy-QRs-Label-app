@@ -9,7 +9,7 @@ class MainView:
         self.root = root
         self.root.title("Selecciona un tipo de herramienta")
         self.root.geometry("500x400")
-        self.root.config(bg="white")
+        self.root.config(bg="red")
 
         # Ruta del logo
         base_dir = os.path.dirname(os.path.abspath(__file__))  # Obtiene el directorio actual
@@ -22,7 +22,7 @@ class MainView:
         self.logo = ImageTk.PhotoImage(self.logo)
 
         # Mostrar logo
-        self.logo_label = tk.Label(root, image=self.logo, bg="white")
+        self.logo_label = tk.Label(root, image=self.logo, bg="red")
         self.logo_label.pack(pady=10)
 
         # Título
