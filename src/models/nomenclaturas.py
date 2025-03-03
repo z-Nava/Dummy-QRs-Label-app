@@ -1,12 +1,10 @@
 # Diccionario de herramientas con sus jobs asociados
 herramientas_data = {
     "BACKPACK / BRIEFCASE": {
-        "MXF_BPMPUL2434061": {"corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
-        "MXF_BCMPUL2434062": {"corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
+        
     },
    "LSM": {
-        "MXF_BPMPUL2434061": {"corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
-        "MXF_BCMPUL2434062": {"corrida": "MP", "version": "UL", "año": "2024", "semana": "34", "consecutivo": "001"},
+       
     },
     "POWER TROWEL":{
 
