@@ -14,46 +14,26 @@ class ScreedView:
         self.root.config(bg="white")
 
         # Obtener datos del diccionario
-        datos = herramientas_data["SCREED"]
-        modelos = datos["modelo"]
-        corridas = datos["corrida"]
-        versiones = datos["version"]
-        años = list(map(str, datos["años"]))  # Convertir a string
-        semanas = [str(i).zfill(2) for i in datos["semanas"]]
-        consecutivos = [str(i).zfill(7) for i in datos["consecutivo"]]
+        self.data = herramientas_data["SCREED"]
+        
 
         # Título
-        tk.Label(root, text="Configurar Código QR", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
-
-        # Selección de Modelo
-        tk.Label(root, text="Selecciona el modelo:", font=("Arial", 12), bg="white").pack()
-        self.modelo_var = tk.StringVar()
-        ttk.Combobox(root, textvariable=self.modelo_var, values=modelos).pack(pady=5)
-
-        # Selección de Corrida
-        tk.Label(root, text="Selecciona la corrida:", font=("Arial", 12), bg="white").pack()
-        self.corrida_var = tk.StringVar()
-        ttk.Combobox(root, textvariable=self.corrida_var, values=corridas).pack(pady=5)
-
-        # Selección de Versión
-        tk.Label(root, text="Selecciona la versión:", font=("Arial", 12), bg="white").pack()
-        self.version_var = tk.StringVar()
-        ttk.Combobox(root, textvariable=self.version_var, values=versiones).pack(pady=5)
-
+        tk.Label(root, text="Screed QR", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
+    
         # Selección de Año
         tk.Label(root, text="Selecciona el año:", font=("Arial", 12), bg="white").pack()
-        self.año_var = tk.StringVar(value=años[0])  # Primer año disponible
-        ttk.Combobox(root, textvariable=self.año_var, values=años).pack(pady=5)
+        self.año_var = tk.StringVar(value=2024)  # Primer año disponible
+        ttk.Spinbox(root, from_=min(self.data["años"]), to=max(self.data["años"]), textvariable=self.año_var, width=5).pack(pady=5)
 
         # Selección de Semana
         tk.Label(root, text="Selecciona la semana:", font=("Arial", 12), bg="white").pack()
-        self.semana_var = tk.StringVar(value=semanas[0])  # Primera semana
-        ttk.Combobox(root, textvariable=self.semana_var, values=semanas).pack(pady=5)
+        self.semana_var = tk.StringVar(value=1)  # Primera semana
+        ttk.Spinbox(root, from_=min(self.data["semanas"]), to=max(self.data["semanas"]), textvariable=self.semana_var, width=5).pack(pady=5)
 
         # Selección de Consecutivo
         tk.Label(root, text="Selecciona el consecutivo:", font=("Arial", 12), bg="white").pack()
-        self.consecutivo_var = tk.StringVar(value=consecutivos[0])  # Primer consecutivo
-        ttk.Combobox(root, textvariable=self.consecutivo_var, values=consecutivos).pack(pady=5)
+        self.consecutivo_var = tk.IntVar(value=1)  # Primer consecutivo
+        ttk.Spinbox(root, from_=min(self.data["consecutivo"]), to=max(self.data["consecutivo"]), textvariable=self.consecutivo_var, width=5).pack(pady=5)
 
         # Botón para generar código QR
         tk.Button(root, text="Generar Código QR", font=("Arial", 12, "bold"), bg="green", fg="white",
@@ -75,12 +55,11 @@ class ScreedView:
 
     def generar_codigo(self):
         """Genera el código QR y lo muestra en la interfaz."""
-        modelo = self.modelo_var.get()
         año = self.año_var.get()[-2:]  # Últimos 2 dígitos
         semana = self.semana_var.get()
-        consecutivo = self.consecutivo_var.get()
+        consecutivo = str(self.consecutivo_var.get()).zfill(7) 
 
-        codigo_qr = f"MXF_{modelo}MPUL{año}{semana}{consecutivo}"
+        codigo_qr = f"MXF_CSMPUL{año}{semana}{consecutivo}"
         self.resultado_label.config(text=f"Código: {codigo_qr}")
 
         # Generar y guardar QR en carpeta `qrs_generados/`

@@ -15,7 +15,7 @@ herramientas_data = {
         "version":["UL"],
         "años": list(range(2020, 2031)),
         "semanas": list(range(1, 53)),
-        "consecutivo": list(range(1, 100))
+        "consecutivo": list(range(1, 1000000))
 
     },
     "EARLY ENTRY SAW":{
