@@ -2,7 +2,8 @@ import tkinter as tk
 from models.qr_model import generar_qr
 from models.nomenclaturas import obtener_modelos
 from views.main_view import MainView
-from views.BackpackBriefcaseView import BackpackBriefcaseView  # Importamos la vista específica
+from views.BackpackBriefcaseView import BackpackBriefcaseView  
+from views.SiteLightView import SiteLightView
 
 class QRController:
     def __init__(self):
@@ -24,6 +25,8 @@ class QRController:
 
         if modelo == "BACKPACK / BRIEFCASE":
             BackpackBriefcaseView(new_root, self)  # Abre la vista específica
+        elif modelo == "SITE LIGHT":
+            SiteLightView(new_root, self)
         else:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 
