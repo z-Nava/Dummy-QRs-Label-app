@@ -69,20 +69,7 @@ herramientas_data = {
 
     },
     "HIGH CICLE": {
-        "modelo": ["BL40", "BL50"],  # Modelos disponibles
-        "corrida": ["MP", "PR", "QB"],  # Tipos de corrida
-        "version": ["UL", "EMEA", "ANZ", "JP"],  # Versiones permitidas
-        "años": list(range(2020, 2031)),  # Años permitidos
-        "semanas": [str(i).zfill(2) for i in range(1, 53)],  # Semanas con formato 01-52
-        "consecutivo": [str(i).zfill(3) for i in range(1, 100)],  # Consecutivos 001-099
-        "longitud_manguera": {  # Relación de longitud con modelo
-            "BL40": ["02", "05", "10"],  # Longitud en metros
-            "BL50": ["02", "05", "10"]
-        },
-        "tipo_motor": {  # Definición del tipo de motor por modelo
-            "BL40": "4",
-            "BL50": "5"
-        }
+       
     },
 
     "SUB PUMP":{

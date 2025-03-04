@@ -5,20 +5,22 @@ import qrcode
 from PIL import Image, ImageTk
 from models.nomenclaturas import herramientas_data  # Importa el diccionario
 
-class BackpackBriefcaseView:
+class ScreedView:
     def __init__(self, root, controller):
         self.controller = controller
         self.root = root
-        self.root.title("Backpack / Briefcase")
+        self.root.title("Screed")
         self.root.geometry("500x500")
         self.root.config(bg="white")
 
         # Obtener datos del diccionario
-        datos = herramientas_data["BACKPACK / BRIEFCASE"]
+        datos = herramientas_data["SCREED"]
         modelos = datos["modelo"]
-        años = list(map(str, datos["años"]))  # Convertir a string para compatibilidad
+        corridas = datos["corrida"]
+        versiones = datos["version"]
+        años = list(map(str, datos["años"]))  # Convertir a string
         semanas = [str(i).zfill(2) for i in datos["semanas"]]
-        consecutivos = [str(i).zfill(3) for i in datos["consecutivo"]]
+        consecutivos = [str(i).zfill(7) for i in datos["consecutivo"]]
 
         # Título
         tk.Label(root, text="Configurar Código QR", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
@@ -27,6 +29,16 @@ class BackpackBriefcaseView:
         tk.Label(root, text="Selecciona el modelo:", font=("Arial", 12), bg="white").pack()
         self.modelo_var = tk.StringVar()
         ttk.Combobox(root, textvariable=self.modelo_var, values=modelos).pack(pady=5)
+
+        # Selección de Corrida
+        tk.Label(root, text="Selecciona la corrida:", font=("Arial", 12), bg="white").pack()
+        self.corrida_var = tk.StringVar()
+        ttk.Combobox(root, textvariable=self.corrida_var, values=corridas).pack(pady=5)
+
+        # Selección de Versión
+        tk.Label(root, text="Selecciona la versión:", font=("Arial", 12), bg="white").pack()
+        self.version_var = tk.StringVar()
+        ttk.Combobox(root, textvariable=self.version_var, values=versiones).pack(pady=5)
 
         # Selección de Año
         tk.Label(root, text="Selecciona el año:", font=("Arial", 12), bg="white").pack()
@@ -62,21 +74,31 @@ class BackpackBriefcaseView:
     def generar_codigo(self):
         """Genera el código QR y lo muestra en la interfaz."""
         modelo = self.modelo_var.get()
+        corrida = self.corrida_var.get()
+        version = self.version_var.get()
         año = self.año_var.get()[-2:]  # Últimos 2 dígitos
         semana = self.semana_var.get()
         consecutivo = self.consecutivo_var.get()
 
-        codigo_qr = f"MXF_{modelo}MPUL{año}{semana}{consecutivo}"
-        self.resultado_label.config(text=f"Código: {codigo_qr}")
+        # Generar código
+        codigo = f"MXF_{modelo}{corrida}{version}{año}{semana}{consecutivo}"
 
-        # Generar y guardar QR en carpeta `qrs_generados/`
-        self.guardar_qr(codigo_qr)
+        self.resultado_label.config(text=f"Código: {codigo}")
+
+        # Generar y guardar QR
+        self.guardar_qr(codigo)
 
     def guardar_qr(self, codigo_qr):
-        """Genera el QR y lo guarda en la carpeta qrs_generados/"""
-        qr = qrcode.make(codigo_qr)
+        """Genera y guarda el código QR en la carpeta `qrs_generados/`."""
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(codigo_qr)
+        qr.make(fit=True)
 
-        # Ruta correcta fuera de `src/`
         script_dir = os.path.dirname(os.path.abspath(__file__))
         qr_folder = os.path.abspath(os.path.join(script_dir, "..", "..", "qrs_generados"))
 
@@ -84,23 +106,14 @@ class BackpackBriefcaseView:
             os.makedirs(qr_folder)
 
         qr_path = os.path.join(qr_folder, f"{codigo_qr}.png")
-        qr.save(qr_path)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_path)
 
         self.mostrar_qr(qr_path)
 
     def mostrar_qr(self, qr_path):
         """Carga la imagen QR y la muestra en la interfaz"""
         qr_img = Image.open(qr_path)
-        qr_img = qr_img.resize((150, 150))
+        qr_img = qr_img.resize((150, 150))  # Ajustar tamaño
         qr_img = ImageTk.PhotoImage(qr_img)
 
-        self.qr_label.config(image=qr_img)
-        self.qr_label.image = qr_img  # Guardar referencia para evitar que se elimine
-
-    def regresar(self):
-        """Cierra esta ventana y regresa a la vista principal"""
-        self.root.destroy()
-        new_root = tk.Tk()
-        from views.main_view import MainView
-        MainView(new_root, self.controller)
-        new_root.mainloop()

@@ -4,6 +4,7 @@ from models.nomenclaturas import obtener_modelos
 from views.main_view import MainView
 from views.BackpackBriefcaseView import BackpackBriefcaseView  
 from views.SiteLightView import SiteLightView
+from views.ScreedView import ScreedView
 
 class QRController:
     def __init__(self):
@@ -27,6 +28,8 @@ class QRController:
             BackpackBriefcaseView(new_root, self)  # Abre la vista específica
         elif modelo == "SITE LIGHT":
             SiteLightView(new_root, self)
+        elif modelo == "SCREED":
+            ScreedView(new_root, self)
         else:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 
