@@ -3,6 +3,7 @@ from tkinter import ttk
 import os
 import qrcode
 from PIL import Image, ImageTk
+from models.nomenclaturas import herramientas_data
 
 class SiteLightView:
     def __init__(self, root, controller):
@@ -12,38 +13,30 @@ class SiteLightView:
         self.root.geometry("500x500")  # Aumentamos tamaño para mostrar QR
         self.root.config(bg="white")
 
+        self.data = herramientas_data["SITE LIGHT"]
+
         # Título
-        tk.Label(root, text="Configurar Código QR", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
-
-        # Selección de Modelo
-        tk.Label(root, text="Selecciona el modelo:", font=("Arial", 12), bg="white").pack()
-        self.modelo_var = tk.StringVar()
-        ttk.Combobox(root, textvariable=self.modelo_var, values=["SL (Site Light)"]).pack(pady=5)
-
-        # Selección de Corrida
-        tk.Label(root, text="Selecciona la corrida:", font=("Arial", 12), bg="white").pack()
-        self.corrida_var = tk.StringVar()
-        ttk.Combobox(root, textvariable=self.corrida_var, values=["MP"]).pack(pady=5)
+        tk.Label(root, text="Site Light QR", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
 
         # Selección de Versión
         tk.Label(root, text="Selecciona la versión:", font=("Arial", 12), bg="white").pack()
         self.version_var = tk.StringVar()
-        ttk.Combobox(root, textvariable=self.version_var, values=["UL", "GB", "ANZ"]).pack(pady=5)
+        ttk.Combobox(root, textvariable=self.version_var, values=self.data["version"], state="readonly").pack(pady=5)
 
         # Selección de Año
         tk.Label(root, text="Selecciona el año:", font=("Arial", 12), bg="white").pack()
         self.año_var = tk.IntVar(value=2024)
-        ttk.Spinbox(root, from_=2020, to=2030, textvariable=self.año_var, width=5).pack(pady=5)
+        ttk.Spinbox(root, from_=min(self.data["años"]), to=max(self.data["años"]), textvariable=self.año_var, width=5).pack(pady=5)
 
         # Selección de Semana
         tk.Label(root, text="Selecciona la semana:", font=("Arial", 12), bg="white").pack()
         self.semana_var = tk.IntVar(value=1)
-        ttk.Spinbox(root, from_=1, to=52, textvariable=self.semana_var, width=5).pack(pady=5)
+        ttk.Spinbox(root, from_=min(self.data["semanas"]), to=max(self.data["semanas"]), textvariable=self.semana_var, width=5).pack(pady=5)
 
         # Selección de Consecutivo
         tk.Label(root, text="Selecciona el consecutivo:", font=("Arial", 12), bg="white").pack()
         self.consecutivo_var = tk.IntVar(value=1)
-        ttk.Spinbox(root, from_=1, to=99, textvariable=self.consecutivo_var, width=5).pack(pady=5)
+        ttk.Spinbox(root, from_=min(self.data["consecutivo"]), to=max(self.data["consecutivo"]), textvariable=self.consecutivo_var, width=5).pack(pady=5)
 
         # Botón para generar código QR
         tk.Button(root, text="Generar Código QR", font=("Arial", 12, "bold"), bg="green", fg="white",
@@ -63,15 +56,13 @@ class SiteLightView:
         
     def generar_codigo(self):
         """Genera el código QR y lo muestra en la interfaz."""
-        modelo = self.modelo_var.get().split()[0]
-        corrida = self.corrida_var.get()
         version = self.version_var.get()
         año = str(self.año_var.get())[-2:]
         semana = str(self.semana_var.get()).zfill(2)
         consecutivo = str(self.consecutivo_var.get()).zfill(3)
 
         # Generar código
-        codigo = f"MXF_{modelo}{corrida}{version}{año}{semana}{consecutivo}"
+        codigo = f"MXF_SLMP{version}{año}{semana}{consecutivo}"
        
         self.resultado_label.config(text=f"Código: {codigo}")
 
