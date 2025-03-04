@@ -1,6 +1,32 @@
-# Diccionario de herramientas con sus jobs asociados
+    # Diccionario de herramientas
 herramientas_data = {
-    "BACKPACK / BRIEFCASE": {
+        "SITE LIGHT":{
+            "modelo": ["SL"], # Modelo fijo
+            "corrida": ["MP"], # Corrida fija
+            "version": ["UL", "GB", "ANZ"], # Versiones disponibles
+            "años": list(range(2020, 2031)), # Años disponibles
+            "semanas": list(range(1, 53)), # Semanas del año
+            "consecutivo":  list(range(1, 100)) # Consecutivo (001-099)
+        
+        },
+    "SCREED":{
+        "modelo":["CS"],
+        "corrida":["MP"],
+        "version":["UL"],
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 1000000))
+
+    },
+    "EARLY ENTRY SAW":{
+        "modelo":["EES"],
+        "corrida":["1", "2"], #GALLINA 1 #DISCO 2
+        "version":["UL", "AN"],
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 100))
+    },
+    "BACKPACK / BRIEFCASE":{
         "modelo": ["BP", "BF"],  # Backpack (BP) o Briefcase (BF)
         "corrida": ["MP"],  # Corrida fija
         "version": ["UL"],  # Versión fija
@@ -8,42 +34,79 @@ herramientas_data = {
         "semanas": list(range(1, 53)),  # Semanas del año
         "consecutivo": list(range(1, 100))  # Consecutivo (001-099)
     },
-   "LSM": {
-       
+    "LSM": {
+        "modelo": ["LSM"],
+        "corrida": ["TR"],
+        "version": ["0", "1"], #500 = 0 501 = 1
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 100))
     },
     "POWER TROWEL":{
-
+        "modelo":["PT24", "PT36"],
+        "version":["UL", "EM"],
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 100))
     },
     "THREADER":{
+        "modelo":["TH"],
+        "corrida":["MP"],
+        "version":["UL", "EMEA", "ANZ"],
+        "tipo":["1", "2"], #FUNCIONAL 1 BOMBA 2
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 1000))
 
     },
     "PLATE COMPACTOR":{
+        "modelo":["PC"],
+        "tipo":["1", "2", "3", "4"], #EXCITER 1, EXCITER 2, ELECTRONIC HOUSING 3, HANDLE BAR 4
+        "version":["UL", "EMEA", "ANZ", "JP"],
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 1000))
 
     },
-    "HIGH CICLE":{
+    "HIGH CICLE": {
+        "modelo": ["BL40", "BL50"],  # Modelos disponibles
+        "corrida": ["MP", "PR", "QB"],  # Tipos de corrida
+        "version": ["UL", "EMEA", "ANZ", "JP"],  # Versiones permitidas
+        "años": list(range(2020, 2031)),  # Años permitidos
+        "semanas": [str(i).zfill(2) for i in range(1, 53)],  # Semanas con formato 01-52
+        "consecutivo": [str(i).zfill(3) for i in range(1, 100)],  # Consecutivos 001-099
+        "longitud_manguera": {  # Relación de longitud con modelo
+            "BL40": ["02", "05", "10"],  # Longitud en metros
+            "BL50": ["02", "05", "10"]
+        },
+        "tipo_motor": {  # Definición del tipo de motor por modelo
+            "BL40": "4",
+            "BL50": "5"
+        }
+    },
 
-    }, 
     "SUB PUMP":{
+        "modelo":["SP"],
+        "corrida":["TR", "QB", "CR", "MP"],
+        "tipo":["G1", "G2"], #G1 = POWER UNIT G2 = BOMBA
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 100))
 
     },
     "RAMER":{
+        "modelo":["R"],
+        "tipo":["1", "2", "3"], #1 = CRANKCASE 2 = GALLINA 3 = HANDLEBAR
+        "version":["UL", "EMEA", "ANZ"],
+        "corrida":["TR", "QB", "CR", "MP"],
+        "años": list(range(2020, 2031)),
+        "semanas": list(range(1, 53)),
+        "consecutivo": list(range(1, 1000))
 
-    },
-    "SITE LIGHT":{
-
-    },
-    "SCREED":{
-
-    },
-    "EARLY ENTRY SAW":{
-
-    },
+    },   
 }
 
 def obtener_modelos():
     """Devuelve una lista de modelos de herramientas disponibles"""
     return list(herramientas_data.keys())
 
-def obtener_jobs_por_modelo(modelo):
-    """Devuelve los Job IDs disponibles para un modelo específico"""
-    return list(herramientas_data.get(modelo, {}).keys())
