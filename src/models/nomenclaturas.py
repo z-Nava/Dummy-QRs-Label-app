@@ -1,6 +1,6 @@
     # Diccionario de herramientas
 herramientas_data = {
-        "SITE LIGHT":{
+    "SITE LIGHT":{
             "modelo": ["SL"], # Modelo fijo
             "corrida": ["MP"], # Corrida fija
             "version": ["UL", "GB", "ANZ"], # Versiones disponibles

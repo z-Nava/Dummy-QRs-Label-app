@@ -6,9 +6,9 @@ class MainView:
     def __init__(self, root, controller):
         self.controller = controller
         self.root = root
-        self.root.title("Selecciona un tipo de herramienta")
+        self.root.title("Dummy QR Generator - MXFUEL")
         self.root.geometry("1020x800")
-        self.root.config(bg="red")
+        self.root.config(bg="#DC1F26")
 
         # Ruta del logo
         base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -20,14 +20,14 @@ class MainView:
         self.logo = ImageTk.PhotoImage(self.logo)
 
         # Mostrar logo
-        self.logo_label = tk.Label(root, image=self.logo, bg="red")
+        self.logo_label = tk.Label(root, image=self.logo, bg="#DC1F26")
         self.logo_label.pack(pady=10)
 
         # Título
-        tk.Label(root, text="Seleccione el tipo de herramienta:", font=("Arial", 14, "bold"), bg="red", fg="white").pack(pady=5)
+        tk.Label(root, text="Seleccione el tipo de herramienta:", font=("Arial", 14, "bold"), bg="#DC1F26", fg="white").pack(pady=5)
 
         # Contenedor de botones (marco)
-        self.frame = tk.Frame(root, bg="red")
+        self.frame = tk.Frame(root, bg="#DC1F26")
         self.frame.pack()
 
         # Crear botones dinámicamente en formato de cuadrícula
