@@ -6,6 +6,7 @@ from views.BackpackBriefcaseView import BackpackBriefcaseView
 from views.SiteLightView import SiteLightView
 from views.ScreedView import ScreedView
 from views.EarlyEntrySawView import EarlyEntrySawView
+from views.LSMView import LSMView
 
 class QRController:
     def __init__(self):
@@ -39,6 +40,8 @@ class QRController:
             ScreedView(new_root, self)
         elif modelo == "EARLY ENTRY SAW":
             EarlyEntrySawView(new_root, self)
+        elif modelo == "LSM":
+            LSMView(new_root, self)
         else:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 
