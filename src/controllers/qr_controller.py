@@ -11,6 +11,12 @@ class QRController:
     def __init__(self):
         self.root = tk.Tk()
         self.view = MainView(self.root, self)
+        self.root.mainloop()
+
+    def mostrar_vista_principal(self):
+        self.root = tk.Tk()  # Crea una nueva instancia solo si no existe
+        self.main_view = MainView(self.root, self)
+        self.root.mainloop()
 
     def obtener_modelos(self):
         """Devuelve una lista de modelos de herramientas disponibles"""

@@ -100,7 +100,4 @@ class BackpackBriefcaseView:
     def regresar(self):
         """Cierra esta ventana y regresa a la vista principal"""
         self.root.destroy()
-        new_root = tk.Tk()
-        from views.main_view import MainView
-        MainView(new_root, self.controller)
-        new_root.mainloop()
+        self.controller.mostrar_vista_principal()
