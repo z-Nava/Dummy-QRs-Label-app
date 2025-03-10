@@ -40,7 +40,15 @@ class MainView:
             "SITE LIGHT": "sitelight.png",
             "SCREED": "screed.png",
             "EARLY ENTRY SAW": "earlyentrysaw.png",
-            "BACKPACK / BRIEFCASE": "backpack.png"
+            "BACKPACK / BRIEFCASE": "backpack.png",
+
+            "POWER TROWEL": "powertrowel.png",
+            "THREADER": "threader.png",
+            "PLATE COMPACTOR": "platecompactor.png",
+            "HIGH CICLE" : "highcIcle.png",
+            
+            "SUB PUMP": "subpump.png",
+            "RAMER": "rammer.png",
         }
 
         # Obtener lista de herramientas desde el controlador
