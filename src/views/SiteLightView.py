@@ -57,35 +57,49 @@ class SiteLightView:
     def generar_codigo(self):
         """Genera el código QR y lo muestra en la interfaz."""
         version = self.version_var.get()
-        año = str(self.año_var.get())[-2:]
-        semana = str(self.semana_var.get()).zfill(2)
-        consecutivo = str(self.consecutivo_var.get()).zfill(3)
+        año = str(self.año_var.get())[-2:]  # Últimos 2 dígitos del año
+        semana = str(self.semana_var.get()).zfill(2)  # Formato de dos dígitos
+        consecutivo = str(self.consecutivo_var.get()).zfill(3)  # Siempre 3 dígitos
 
-        # Generar código
+        # Generar código con la nomenclatura correcta
         codigo = f"MXF_SLMP{version}{año}{semana}{consecutivo}"
-       
+
+        # Actualizar etiqueta de resultado
         self.resultado_label.config(text=f"Código: {codigo}")
 
-        # Generar y guardar QR
-        self.guardar_qr(codigo)
+        # Obtener datos completos para guardar en la estructura de carpetas
+        herramienta_nombre = "SITE_LIGHT"  # Carpeta principal
+        año_completo = int(self.año_var.get())  # Año completo (ej. 2024)
+        semana_num = int(self.semana_var.get())  # Convertir semana a entero
 
-    def guardar_qr(self, codigo_qr):
-        """Genera el QR y lo guarda en la carpeta qrs_generados/"""
+        # Llamar a `guardar_qr()` con la estructura organizada
+        self.guardar_qr(codigo, herramienta_nombre, año_completo, semana_num)
+
+
+    def guardar_qr(self, codigo_qr, herramienta, año, semana):
+        """Genera el QR y lo guarda en una estructura organizada"""
         qr = qrcode.make(codigo_qr)
-        
-        # Ruta correcta fuera de `src/`
-        script_dir = os.path.dirname(os.path.abspath(__file__))  # Obtiene la ruta actual (`src/views/`)
-        qr_folder = os.path.abspath(os.path.join(script_dir, "..", "..", "qrs_generados"))  # Sube a `qrs_generados/`
 
-        if not os.path.exists(qr_folder):
-            os.makedirs(qr_folder)
+        # Obtener la ruta base `qrs_generados/`
+        script_dir = os.path.dirname(os.path.abspath(__file__))  # `src/views/`
+        qr_base_folder = os.path.abspath(os.path.join(script_dir, "..", "..", "qrs_generados"))
+
+        # Construir la estructura de carpetas: qrs_generados/{herramienta}/{año}/Semana_{semana}/
+        herramienta_folder = os.path.join(qr_base_folder, herramienta)
+        año_folder = os.path.join(herramienta_folder, str(año))
+        semana_folder = os.path.join(año_folder, f"Semana_{semana}")
+
+        # Crear las carpetas si no existen
+        os.makedirs(semana_folder, exist_ok=True)
 
         # Ruta del archivo QR
-        qr_path = os.path.join(qr_folder, f"{codigo_qr}.png")
+        qr_path = os.path.join(semana_folder, f"{codigo_qr}.png")
         qr.save(qr_path)
 
         # Mostrar QR en la interfaz
         self.mostrar_qr(qr_path)
+
+        print(f"✅ QR guardado en: {qr_path}")  # Para depuración
 
     def mostrar_qr(self, qr_path):
         """Carga la imagen QR y la muestra en la interfaz"""
