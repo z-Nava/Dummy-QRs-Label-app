@@ -7,6 +7,9 @@ from views.SiteLightView import SiteLightView
 from views.ScreedView import ScreedView
 from views.EarlyEntrySawView import EarlyEntrySawView
 from views.LSMView import LSMView
+from views.PowerTrowelView import PowerTrowelView
+from views.ThreaderView import ThreaderView
+from views.PlateCompactorView import PlateCompactorView
 
 class QRController:
     def __init__(self):
@@ -42,6 +45,12 @@ class QRController:
             EarlyEntrySawView(new_root, self)
         elif modelo == "LSM":
             LSMView(new_root, self)
+        elif modelo == "POWER TROWEL":
+            PowerTrowelView(new_root, self)
+        elif modelo == "THREADER":
+            ThreaderView(new_root, self)
+        elif modelo == "PLATE COMPACTOR":
+            PlateCompactorView(new_root, self)
         else:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 

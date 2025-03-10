@@ -40,14 +40,14 @@ herramientas_data = {
         "version": ["0", "1"], #500 = 0 501 = 1
         "años": list(range(2020, 2031)),
         "semanas": list(range(1, 53)),
-        "consecutivo": list(range(1, 100))
+        "consecutivo": list(range(1, 1000)) #Consecutivo (001-999)
     },
     "POWER TROWEL":{
         "modelo":["PT24", "PT36"],
-        "version":["UL", "EM"],
+        "version":["UL", "EMEA"],
         "años": list(range(2020, 2031)),
         "semanas": list(range(1, 53)),
-        "consecutivo": list(range(1, 100))
+        "consecutivo": list(range(1, 1000))
     },
     "THREADER":{
         "modelo":["TH"],
@@ -56,7 +56,7 @@ herramientas_data = {
         "tipo":["1", "2"], #FUNCIONAL 1 BOMBA 2
         "años": list(range(2020, 2031)),
         "semanas": list(range(1, 53)),
-        "consecutivo": list(range(1, 1000))
+        "consecutivo": list(range(1, 10000))
 
     },
     "PLATE COMPACTOR":{

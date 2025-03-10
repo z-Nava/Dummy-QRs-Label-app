@@ -6,30 +6,35 @@ from PIL import Image, ImageTk
 from models.nomenclaturas import herramientas_data  # Importa el diccionario
 
 
-class LSMView:
+class PlateCompactorView:
     def __init__(self, root, controller):
         self.controller = controller
         self.root = root
-        self.root.title("LSM")
+        self.root.title("Plate Compactor")
         self.root.geometry("500x500")
         self.root.config(bg="white")
 
         # Obtener datos del diccionario
-        datos = herramientas_data["LSM"]
-        self.modelo = datos["modelo"][0]  # Solo hay un modelo "LSM"
-        self.corrida = datos["corrida"][0]  # Usamos la primera corrida en la lista
-        self.version = datos["version"]
+        datos = herramientas_data["PLATE COMPACTOR"]
+        self.modelo = datos["modelo"][0]  # Siempre "PC"
+        self.tipos = datos["tipo"]  # Tipos 1-4
+        self.versiones = datos["version"]
         self.años = datos["años"]
         self.semanas = datos["semanas"]
         self.consecutivos = datos["consecutivo"]
 
         # Título
-        tk.Label(root, text="Configurar Código QR", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
+        tk.Label(root, text="Configurar Código QR - Plate Compactor", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
 
-        # Selección de versión
+        # Selección de tipo (1, 2, 3, 4)
+        tk.Label(root, text="Selecciona el tipo:", font=("Arial", 12), bg="white").pack()
+        self.tipo_var = tk.StringVar(value=self.tipos[0])  # Primer tipo por defecto
+        ttk.Combobox(root, textvariable=self.tipo_var, values=self.tipos).pack(pady=5)
+
+        # Selección de versión (UL, EMEA, ANZ, JP)
         tk.Label(root, text="Selecciona la versión:", font=("Arial", 12), bg="white").pack()
-        self.version_var = tk.StringVar(value=self.version[0])  # Primera versión
-        ttk.Combobox(root, textvariable=self.version_var, values=self.version).pack(pady=5)
+        self.version_var = tk.StringVar(value=self.versiones[0])  # Primera versión por defecto
+        ttk.Combobox(root, textvariable=self.version_var, values=self.versiones).pack(pady=5)
 
         # Selección de Año
         tk.Label(root, text="Selecciona el año:", font=("Arial", 12), bg="white").pack()
@@ -76,14 +81,21 @@ class LSMView:
 
     def generar_codigo(self):
         """Genera el código QR y lo muestra en la interfaz."""
-        modelo = self.modelo  # Siempre será "LSM"
-        version = self.version_var.get()  # Obtener la versión seleccionada
+        modelo = self.modelo  # Siempre "PC"
+        tipo = self.tipo_var.get()  # Tipo de modelo (1, 2, 3, 4)
+        version = self.version_var.get()  # Obtener versión seleccionada
         año = self.año_var.get()[-2:]  # Últimos 2 dígitos del año
         semana = self.semana_var.get()
-        consecutivo = str(self.consecutivo_var.get()).zfill(3)  # Rellenar con ceros a la izquierda
+        consecutivo = int(self.consecutivo_var.get())  # Convertimos a entero
+
+        # Ajustar el consecutivo según la versión para que siempre sean 17 caracteres
+        if version in ["UL", "JP"]:
+            consecutivo_str = str(consecutivo).zfill(4)  # 4 dígitos
+        else:  # ANZ y EMEA
+            consecutivo_str = str(consecutivo).zfill(3)  # 3 dígitos
 
         # Generar código QR con la nomenclatura correcta
-        codigo_qr = f"MXF_{modelo}{self.corrida}{version}{año}{semana}{consecutivo}"
+        codigo_qr = f"MXF_{modelo}{tipo}{version[:3]}{año}{semana}{consecutivo_str}"
         self.resultado_label.config(text=f"Código: {codigo_qr}")
 
         # Generar y guardar QR en carpeta `qrs_generados/`
