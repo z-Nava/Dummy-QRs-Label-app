@@ -1,5 +1,4 @@
 import tkinter as tk
-from models.qr_model import generar_qr
 from models.nomenclaturas import obtener_modelos
 from views.main_view import MainView
 from views.BackpackBriefcaseView import BackpackBriefcaseView  
@@ -55,11 +54,6 @@ class QRController:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 
         new_root.mainloop()
-
-
-    def generar_qrs(self, codigo_qr, cantidad):
-        """Llama a la función del modelo para generar QR"""
-        return generar_qr(codigo_qr, cantidad)
 
     def run(self):
         self.root.mainloop()
