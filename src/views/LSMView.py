@@ -65,14 +65,8 @@ class LSMView:
         self.qr_label.pack()
 
         # Botón para regresar a la vista principal
-        tk.Button(
-            root,
-            text="Regresar",
-            font=("Arial", 12, "bold"),
-            bg="gray",
-            fg="white",
-            command=self.regresar,
-        ).pack(pady=10)
+        tk.Button(self.root, text="Regresar", font=("Arial", 12, "bold"), bg="gray", fg="white",
+          command=lambda: self.controller.regresar(self.root)).pack(pady=10)
 
     def generar_codigo(self):
         """Genera el código QR y lo muestra en la interfaz."""
@@ -114,7 +108,3 @@ class LSMView:
         self.qr_label.config(image=qr_img)
         self.qr_label.image = qr_img  # Guardar referencia para evitar que se elimine
 
-    def regresar(self):
-        """Cierra esta ventana y regresa a la vista principal"""
-        self.root.destroy()
-        self.controller.mostrar_vista_principal()

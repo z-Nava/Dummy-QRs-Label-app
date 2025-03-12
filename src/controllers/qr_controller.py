@@ -9,6 +9,7 @@ from views.LSMView import LSMView
 from views.PowerTrowelView import PowerTrowelView
 from views.ThreaderView import ThreaderView
 from views.PlateCompactorView import PlateCompactorView
+from PIL import Image, ImageTk
 
 class QRController:
     def __init__(self):
@@ -54,6 +55,22 @@ class QRController:
             print(f"No hay vista implementada aún para {modelo}")  # Mensaje para futuras herramientas
 
         new_root.mainloop()
+        
+    def regresar(self, ventana=None):
+        """Cierra la ventana actual y regresa a la vista principal."""
+        if ventana:
+            ventana.destroy()
+        self.mostrar_vista_principal()
+
+
+    def mostrar_qr(self, qr_path):
+        """Carga la imagen QR y la muestra en la interfaz"""
+        qr_img = Image.open(qr_path)
+        qr_img = qr_img.resize((150, 150))
+        qr_img = ImageTk.PhotoImage(qr_img)
+
+        self.qr_label.config(image=qr_img)
+        self.qr_label.image = qr_img  # Guardar referencia para evitar que se elimine
 
     def run(self):
         self.root.mainloop()
