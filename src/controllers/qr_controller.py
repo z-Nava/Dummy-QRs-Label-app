@@ -10,6 +10,8 @@ from views.PowerTrowelView import PowerTrowelView
 from views.ThreaderView import ThreaderView
 from views.PlateCompactorView import PlateCompactorView
 from PIL import Image, ImageTk
+import os
+import qrcode
 
 class QRController:
     def __init__(self):
@@ -63,14 +65,41 @@ class QRController:
         self.mostrar_vista_principal()
 
 
-    def mostrar_qr(self, qr_path):
-        """Carga la imagen QR y la muestra en la interfaz"""
+    def mostrar_qr(self, qr_path, qr_label):
+        """Carga la imagen QR y la muestra en la etiqueta especificada."""
         qr_img = Image.open(qr_path)
         qr_img = qr_img.resize((150, 150))
         qr_img = ImageTk.PhotoImage(qr_img)
 
-        self.qr_label.config(image=qr_img)
-        self.qr_label.image = qr_img  # Guardar referencia para evitar que se elimine
+        qr_label.config(image=qr_img)
+        qr_label.image = qr_img  # Guardar referencia para evitar que se elimine
 
     def run(self):
         self.root.mainloop()
+
+    def generar_codigo(self, modelo, version, año, semana, consecutivo):
+        """Genera un código QR basado en los datos ingresados con la nomenclatura adecuada."""
+        año = str(año)[-2:]
+        semana = str(semana).zfill(2)
+        consecutivo = str(consecutivo).zfill(3)
+        codigo_qr = f"MXF_{modelo}MP{version}{año}{semana}{consecutivo}"
+        return codigo_qr
+
+    def guardar_qr(self, codigo_qr, herramienta, año, semana):
+        """Genera el QR y lo guarda en una estructura organizada de carpetas."""
+        qr = qrcode.make(codigo_qr)
+
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        qr_base_folder = os.path.abspath(os.path.join(script_dir, "..", "..", "qrs_generados"))
+
+        herramienta_folder = os.path.join(qr_base_folder, herramienta)
+        año_folder = os.path.join(herramienta_folder, str(año))
+        semana_folder = os.path.join(año_folder, f"Semana_{semana}")
+
+        os.makedirs(semana_folder, exist_ok=True)
+
+        qr_path = os.path.join(semana_folder, f"{codigo_qr}.png")
+        qr.save(qr_path)
+
+        return qr_path
+        
